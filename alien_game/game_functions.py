@@ -6,20 +6,42 @@ from bullet import Bullet
 from alien import Alien
 
 
-def check_events(pygame_settings, screen, ship, bullets):
-	"""响应鼠标和按键事件"""
+def check_events(pygame_settings, screen, ship, bullets, stats, play_button):
+	"""
+	响应鼠标和按键事件
+	:param pygame_settings: 游戏设置
+	:param screen: 屏幕
+	:param ship: 飞船
+	:param bullets: 子弹编组
+	:param stats: 游戏状态
+	:param play_button: 开始按钮
+	:return:
+	"""
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			sys.exit()
 
-		if event.type == pygame.KEYUP:
+		elif event.type == pygame.KEYUP:
 			check_keyup_event(event, ship)
 		elif event.type == pygame.KEYDOWN:
 			check_keydown_event(event, ship, pygame_settings, screen, bullets)
+		elif event.type == pygame.MOUSEBUTTONDOWN:
+			mouse_x, mouse_y = pygame.mouse.get_pos()
+			check_play_button(stats, play_button, mouse_x, mouse_y)
 
 
-def update_screen(ai_settings, screen, ship, bullets, aliens):
-	"""更新屏幕上的图像，并切换到最新屏幕"""
+def update_screen(ai_settings, screen, ship, bullets, aliens, stats, button):
+	"""
+	更新屏幕上的图像，并切换到最新屏幕
+	:param ai_settings: 游戏设置
+	:param screen:  屏幕
+	:param ship: 飞船
+	:param bullets: 子弹编组
+	:param aliens: 外星人编组
+	:param stats: 游戏状态
+	:param button: 按钮
+	:return: none
+	"""
 	# 设置屏幕背景色
 	screen.fill(ai_settings.bg_color)
 	# 将子弹画到屏幕
@@ -30,6 +52,9 @@ def update_screen(ai_settings, screen, ship, bullets, aliens):
 	ship.blitme()
 	# 将外星人画到屏幕
 	aliens.draw(screen)
+	# 如果游戏处于非活动状态就绘制Play按钮
+	if not stats.game_active:
+		button.draw_button()
 	# 显示最近的屏幕
 	pygame.display.flip()
 
@@ -227,3 +252,16 @@ def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
 		if alien.rect.bottom >= screen_rect.bottom:
 			# 当作撞到飞船处理
 			ship_hit(ai_settings, stats, screen, ship, bullets, aliens)
+
+
+def check_play_button(stats, play_button, mouse_x, mouse_y):
+	"""
+	单击开始游戏按钮
+	:param stats: 游戏状态
+	:param play_button: 开始按钮
+	:param mouse_x: 鼠标点击的x轴
+	:param mouse_y: 鼠标点击的y轴
+	:return: none
+	"""
+	if play_button.rect.collidepoint(mouse_x, mouse_y):
+		stats.game_active =True

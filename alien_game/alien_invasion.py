@@ -7,6 +7,7 @@ from settings import Settings
 import game_functions as game_function
 from ship import Ship
 from game_stats import GameStats
+from  button import Button
 
 
 def run_game():
@@ -16,6 +17,8 @@ def run_game():
 	# 设置对象
 	pygame_settings = Settings()
 	screen = pygame.display.set_mode((pygame_settings.screen_width, pygame_settings.screen_height))
+	# 创建开始按钮
+	play_buton = Button(pygame_settings, screen, "Play")
 	# 创建一艘飞船
 	ship = Ship(pygame_settings, screen)
 	# 创建一个子弹的分组，用于管理子弹
@@ -31,7 +34,7 @@ def run_game():
 	# 开始游戏主循环
 	while True:
 		# 监视键盘和鼠标事件
-		game_function.check_events(pygame_settings, screen, ship, bullets)
+		game_function.check_events(pygame_settings, screen, ship, bullets, stats=stats, play_button=play_buton)
 		if stats.game_active:
 			# 更新子弹数据
 			game_function.update_bullet(bullets=bullets, aliens=aliens, ship=ship, screen=screen,
@@ -39,8 +42,12 @@ def run_game():
 			# 更新外星人数据
 			game_function.update_alien(aliens=aliens, ai_settings=pygame_settings, ship=ship, stats=stats,
 				bullets=bullets, screen=screen)
-			# 每次循环重新绘制屏幕
-			game_function.update_screen(pygame_settings, screen, ship, bullets, aliens)
+
+			# 更新飞船状态
+			ship.updateposttion()
+
+		# 每次循环重新绘制屏幕
+		game_function.update_screen(pygame_settings, screen, ship, bullets, aliens, stats=stats, button=play_buton)
 
 
 run_game()

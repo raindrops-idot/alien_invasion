@@ -29,7 +29,6 @@ class Ship(object):
 		self.screen.blit(self.image, self.rect)
 
 	def updateposttion(self):
-		print("updateposttion")
 		"""根据移动标识调整飞船的位置(上下左右)"""
 		if self.move_right and self.rect.right < self.screen_rect.right:
 			self.center_x += self.ai_settings.ship_speed_factor_x
