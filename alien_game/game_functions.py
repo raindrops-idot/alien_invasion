@@ -213,7 +213,7 @@ def ship_hit(ai_settings, stats, screen, ship, bullets, aliens):
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
 	"""
 	检查受否有外星人到达底部
-	:param ai_setting: 游戏设置
+	:param ai_settings: 游戏设置
 	:param stats: 系统统计数据
 	:param screen: 屏幕
 	:param ship: 飞船
