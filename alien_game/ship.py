@@ -45,4 +45,5 @@ class Ship(object):
 
 	def center_ship(self):
 		"""让飞船居中"""
-		self.center = self.screen_rect.centerx
+		self.center_x = self.screen_rect.centerx
+		self.center_y = self.screen_rect.bottom

@@ -34,7 +34,7 @@ def run_game():
 	# 开始游戏主循环
 	while True:
 		# 监视键盘和鼠标事件
-		game_function.check_events(pygame_settings, screen, ship, bullets, stats=stats, play_button=play_buton)
+		game_function.check_events(pygame_settings, screen, ship, bullets, stats, play_buton, aliens)
 		if stats.game_active:
 			# 更新子弹数据
 			game_function.update_bullet(bullets=bullets, aliens=aliens, ship=ship, screen=screen,

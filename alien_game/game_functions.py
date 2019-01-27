@@ -6,7 +6,7 @@ from bullet import Bullet
 from alien import Alien
 
 
-def check_events(pygame_settings, screen, ship, bullets, stats, play_button):
+def check_events(pygame_settings, screen, ship, bullets, stats, play_button, aliens):
 	"""
 	响应鼠标和按键事件
 	:param pygame_settings: 游戏设置
@@ -15,6 +15,7 @@ def check_events(pygame_settings, screen, ship, bullets, stats, play_button):
 	:param bullets: 子弹编组
 	:param stats: 游戏状态
 	:param play_button: 开始按钮
+	:param aliens: 外星人编组
 	:return:
 	"""
 	for event in pygame.event.get():
@@ -27,7 +28,7 @@ def check_events(pygame_settings, screen, ship, bullets, stats, play_button):
 			check_keydown_event(event, ship, pygame_settings, screen, bullets)
 		elif event.type == pygame.MOUSEBUTTONDOWN:
 			mouse_x, mouse_y = pygame.mouse.get_pos()
-			check_play_button(stats, play_button, mouse_x, mouse_y)
+			check_play_button(stats, play_button, mouse_x, mouse_y,pygame_settings, ship, aliens, screen, bullets)
 
 
 def update_screen(ai_settings, screen, ship, bullets, aliens, stats, button):
@@ -233,6 +234,7 @@ def ship_hit(ai_settings, stats, screen, ship, bullets, aliens):
 		sleep(0.5)
 	else:
 		stats.game_active = False
+		pygame.mouse.set_visible(True)
 
 
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
@@ -254,14 +256,33 @@ def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
 			ship_hit(ai_settings, stats, screen, ship, bullets, aliens)
 
 
-def check_play_button(stats, play_button, mouse_x, mouse_y):
+def check_play_button(stats, play_button, mouse_x, mouse_y, ai_settings, ship, aliens, screen, bullets):
 	"""
-	单击开始游戏按钮
+	单击开始游戏按钮，并重置统计信息
 	:param stats: 游戏状态
 	:param play_button: 开始按钮
 	:param mouse_x: 鼠标点击的x轴
 	:param mouse_y: 鼠标点击的y轴
+	:param ai_settings：系统设置
+	:param ship：飞船
+	:param aliens：外星人编组
+	:param screen：屏幕
+	:param bullets：子弹编组
 	:return: none
 	"""
-	if play_button.rect.collidepoint(mouse_x, mouse_y):
+	button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
+	if button_clicked and not stats.game_active:
+		# 隐藏光标
+		pygame.mouse.set_visible(False)
+		# 重置统计信息
+		stats.reset_stats()
+		# 激活游戏状态
 		stats.game_active =True
+
+		# 清空子弹编组和外星人编组
+		aliens.empty()
+		bullets.empty()
+		# 创建一群新外星人，并让飞船居中
+		creat_fleet(ai_settings, screen, aliens, ship)
+		# 飞船居中
+		ship.center_ship()
