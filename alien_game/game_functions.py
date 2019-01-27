@@ -125,7 +125,7 @@ def creat_fleet(ai_settings, screen, aliens, ship):
 		for alien_number in range(number_aliens_x):
 			# 创建外星人并加入当前行
 			create_alien(ai_settings=ai_settings, screen=screen, aliens=aliens, alien_number=alien_number,
-						 row_number=number_row)
+				row_number=number_row)
 
 
 def get_number_aliens_x(ai_settings, alien_width):
