@@ -1,5 +1,4 @@
 # 系统模块
-import sys
 import pygame
 from pygame.sprite import Group
 
@@ -34,15 +33,13 @@ def run_game():
 		# 监视键盘和鼠标事件
 		game_function.check_events(pygame_settings, screen, ship, bullets)
 		if stats.game_active:
-			ship.updateposttion()
 			# 更新子弹数据
 			game_function.update_bullet(bullets=bullets, aliens=aliens, ship=ship, screen=screen,
 										ai_settings=pygame_settings, stats=stats)
 			# 更新外星人数据
 			game_function.update_alien(aliens=aliens, ai_settings=pygame_settings, ship=ship, stats=stats,
 									   bullets=bullets, screen=screen)
-		# 每次循环重新绘制屏幕
-		else:
+			# 每次循环重新绘制屏幕
 			game_function.update_screen(pygame_settings, screen, ship, bullets, aliens)
 
 
