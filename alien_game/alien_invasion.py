@@ -35,10 +35,10 @@ def run_game():
 		if stats.game_active:
 			# 更新子弹数据
 			game_function.update_bullet(bullets=bullets, aliens=aliens, ship=ship, screen=screen,
-										ai_settings=pygame_settings, stats=stats)
+				ai_settings=pygame_settings, stats=stats)
 			# 更新外星人数据
 			game_function.update_alien(aliens=aliens, ai_settings=pygame_settings, ship=ship, stats=stats,
-									   bullets=bullets, screen=screen)
+				bullets=bullets, screen=screen)
 			# 每次循环重新绘制屏幕
 			game_function.update_screen(pygame_settings, screen, ship, bullets, aliens)
 
